@@ -1,0 +1,42 @@
+# action.yaml
+name: "Custom Github Action"
+description: "A Github Action that takes an input and returns the square of the number"
+inputs:
+  url:
+    description: "Url para buscar dados"
+    required: true
+    default: "https://mockbin.org/request"
+
+  number:
+    description: "Número para contador"
+    required: true
+    default: "2"
+
+  hello:
+    description: "Echo"
+    required: true
+    default: "from PDD"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+    
+    - name: Hello
+      run: gbcli hello ${{ inputs.hello }} --printer github
+      shell: bash
+    
+    - name: Counter
+      run: gbcli counter ${{ inputs.counter }} --printer github
+      shell: bash
+
+    - name: Get
+      run: gbcli get ${{ inputs.url }} --printer github
+      shell: bash
